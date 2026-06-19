@@ -1,1 +1,34 @@
 replicaCount: 4
+
+image:
+  repository: debolina30/movie-rating-service
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+database:
+  host: mysql-service
+  port: 3306
+  name: ratingsdb
+
+hpa:
+  enabled: true
+  minReplicas: 4
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 70
